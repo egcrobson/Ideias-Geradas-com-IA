@@ -1,0 +1,47 @@
+{
+  "manifest_version": 3,
+  "name": "Sentinela — Monitor de Navegação Segura",
+  "short_name": "Sentinela",
+  "version": "1.0.1",
+  "description": "Verifica sua navegação em busca de phishing, malware e sites suspeitos e gera relatórios exportáveis (CSV, JSON, PDF). Dados ficam só no seu navegador.",
+  "minimum_chrome_version": "116",
+  "permissions": [
+    "webNavigation",
+    "webRequest",
+    "downloads",
+    "storage",
+    "unlimitedStorage",
+    "alarms",
+    "notifications",
+    "tabs"
+  ],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ],
+  "action": {
+    "default_popup": "pages/popup.html",
+    "default_title": "Sentinela",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png"
+    }
+  },
+  "options_page": "pages/options.html",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

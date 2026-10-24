@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Relatório de Segurança — Sentinela</title>
+<link rel="stylesheet" href="../ui/styles.css">
+<link rel="stylesheet" href="../ui/report.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap top-in">
+    <img src="../icons/icon48.png" alt="" width="32" height="32">
+    <div class="grow">
+      <h1>Relatório de segurança da navegação</h1>
+      <div class="small muted" id="periodLabel"></div>
+    </div>
+    <div class="no-print exports">
+      <button id="expCsv">Exportar CSV</button>
+      <button id="expJson">Exportar JSON</button>
+      <button class="primary" id="expPdf">Salvar PDF</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="filters panel no-print">
+    <label>Período
+      <select id="fPeriod">
+        <option value="1">Últimas 24 horas</option>
+        <option value="7" selected>Últimos 7 dias</option>
+        <option value="30">Últimos 30 dias</option>
+        <option value="all">Tudo</option>
+        <option value="custom">Personalizado…</option>
+      </select>
+    </label>
+    <label id="customDates" hidden>De <input type="date" id="fFrom"> até <input type="date" id="fTo"></label>
+    <label>Risco
+      <select id="fSev">
+        <option value="alerts" selected>Só alertas (alto + médio + baixo)</option>
+        <option value="alta">Só alto</option>
+        <option value="altamedia">Alto e médio</option>
+        <option value="all">Tudo (inclui visitas limpas)</option>
+      </select>
+    </label>
+    <label>Tipo
+      <select id="fType">
+        <option value="all">Todos</option>
+        <option value="navegacao">Sites visitados</option>
+        <option value="download">Downloads</option>
+        <option value="recurso">Conteúdo carregado pela página</option>
+        <option value="senha">Pedidos de senha</option>
+        <option value="redirecionamento">Redirecionamentos</option>
+      </select>
+    </label>
+    <label class="grow">Buscar <input type="text" id="fSearch" placeholder="domínio, arquivo ou motivo"></label>
+  </div>
+
+  <section class="tiles" id="tiles"></section>
+
+  <section class="grid2">
+    <div class="panel">
+      <h2>Alertas por dia</h2>
+      <div id="chart" class="chart"></div>
+      <div class="legend small muted"><span><i class="dot alta"></i>Alto</span><span><i class="dot media"></i>Médio</span><span><i class="dot baixa"></i>Baixo</span></div>
+    </div>
+    <div class="panel">
+      <h2>Domínios com mais alertas</h2>
+      <ol id="topDomains" class="top-list"></ol>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Motivos mais frequentes</h2>
+    <div id="topReasons" class="reason-bars"></div>
+  </section>
+
+  <section class="panel">
+    <div class="row-between">
+      <h2>Eventos <span class="muted small" id="evCount"></span></h2>
+      <button class="no-print danger small" id="clearAll">Apagar histórico</button>
+    </div>
+    <div class="table-wrap">
+      <table id="table">
+        <thead><tr><th>Data/hora</th><th>Risco</th><th>Tipo</th><th>Endereço</th><th>Motivos</th><th>Ação</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="no-print center"><button id="more" hidden>Mostrar mais</button></div>
+    <p class="empty muted" id="empty" hidden>Nenhum evento encontrado neste período com esses filtros. Bom sinal!</p>
+  </section>
+
+  <p class="small muted foot">Gerado pela extensão Sentinela em <span id="genAt"></span>. Fontes: heurísticas locais, URLhaus (abuse.ch), OpenPhish, Phishing Army<span id="sbNote"></span>. Os dados ficam armazenados apenas neste navegador.</p>
+</main>
+<script type="module" src="../ui/report.js"></script>
+</body>
+</html>

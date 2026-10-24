@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Sentinela</title>
+<link rel="stylesheet" href="../ui/styles.css">
+<style>
+  body { width: 360px; }
+  header { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--line); background: var(--panel); }
+  header img { width: 26px; height: 26px; }
+  header .grow { flex: 1; }
+  header .title { font-weight: 700; font-size: 15px; }
+  section { padding: 14px 16px; border-bottom: 1px solid var(--line); }
+  .site { display: flex; align-items: center; gap: 8px; justify-content: space-between; }
+  .site .host { font-weight: 650; word-break: break-all; }
+  ul.reasons { margin: 10px 0 0; padding-left: 18px; }
+  ul.reasons li { margin: 3px 0; }
+  .meter { height: 6px; border-radius: 99px; background: var(--line); margin-top: 10px; overflow: hidden; }
+  .meter i { display: block; height: 100%; background: var(--accent); }
+  .counts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .counts div { background: var(--bg); border-radius: 8px; padding: 8px; text-align: center; }
+  .counts b { display: block; font-size: 18px; font-variant-numeric: tabular-nums; }
+  .counts .a b { color: var(--alta); } .counts .m b { color: var(--media); }
+  .recent { list-style: none; margin: 0; padding: 0; }
+  .recent li { display: flex; gap: 8px; align-items: center; padding: 5px 0; }
+  .recent li .h { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  footer { display: flex; gap: 8px; padding: 12px 16px; flex-wrap: wrap; }
+  footer button { flex: 1; justify-content: center; }
+  .row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+</style>
+</head>
+<body>
+<header>
+  <img src="../icons/icon48.png" alt="">
+  <div class="grow">
+    <div class="title">Sentinela</div>
+    <div class="small muted" id="feedInfo">Carregando…</div>
+  </div>
+  <label class="switch" title="Ligar/desligar monitoramento">
+    <input type="checkbox" id="active"><span></span>
+  </label>
+</header>
+
+<section id="current">
+  <div class="small muted">Site atual</div>
+  <div class="site"><span class="host" id="curHost">—</span><span id="curSev"></span></div>
+  <div class="meter"><i id="curMeter" style="width:0"></i></div>
+  <ul class="reasons small" id="curReasons"></ul>
+  <div class="row" style="margin-top:10px" id="trustRow" hidden>
+    <span class="small muted">Confia neste site?</span>
+    <button id="trustBtn" class="small">Adicionar à lista de confiança</button>
+  </div>
+</section>
+
+<section>
+  <div class="row" style="margin-bottom:8px"><span class="small muted">Últimas 24 horas</span></div>
+  <div class="counts">
+    <div class="a"><b id="cAlta">0</b><span class="small muted">risco alto</span></div>
+    <div class="m"><b id="cMedia">0</b><span class="small muted">risco médio</span></div>
+    <div><b id="cTotal">0</b><span class="small muted">analisados</span></div>
+  </div>
+</section>
+
+<section id="recentSec" hidden>
+  <div class="small muted" style="margin-bottom:6px">Alertas recentes</div>
+  <ul class="recent" id="recent"></ul>
+</section>
+
+<footer>
+  <button class="primary" id="openReport">Abrir relatório</button>
+  <button id="openOptions">Configurações</button>
+</footer>
+<script type="module" src="../ui/popup.js"></script>
+</body>
+</html>

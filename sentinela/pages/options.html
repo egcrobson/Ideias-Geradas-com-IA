@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Configurações — Sentinela</title>
+<link rel="stylesheet" href="../ui/styles.css">
+<style>
+  .wrap { max-width: 760px; margin: 0 auto; padding: 28px 20px 48px; }
+  .head { display: flex; gap: 12px; align-items: center; margin-bottom: 20px; }
+  .panel { margin-bottom: 16px; }
+  .opt { display: flex; gap: 14px; justify-content: space-between; align-items: center; padding: 12px 0; border-top: 1px solid var(--line); }
+  .opt:first-of-type { border-top: 0; padding-top: 0; }
+  .opt .t { font-weight: 600; }
+  .opt .d { font-size: 12px; color: var(--muted); }
+  .opt select { flex: none; min-width: 200px; }
+  .welcome { background: var(--baixa-bg); border-color: transparent; }
+  .feeds td, .feeds th { padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--line); font-size: 13px; }
+  .feeds { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+  .chip { display: inline-flex; gap: 6px; align-items: center; background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 3px 4px 3px 10px; font-size: 13px; }
+  .chip button { padding: 0 6px; border: 0; background: none; color: var(--muted); }
+  .inline { display: flex; gap: 8px; flex-wrap: wrap; }
+  .inline input { flex: 1; min-width: 200px; }
+  .ok { color: var(--accent); } .err { color: var(--alta); }
+  ol li { margin: 4px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <img src="../icons/icon48.png" width="36" height="36" alt="">
+    <div><h1>Sentinela</h1><div class="small muted">Configurações e fontes de verificação</div></div>
+  </div>
+
+  <div class="panel welcome" id="welcome" hidden>
+    <h2>Pronto, a extensão está ativa</h2>
+    <p style="margin:0">A partir de agora cada site que você abre e cada download são verificados. As listas de ameaças estão sendo baixadas — leva alguns segundos. Clique no ícone do Sentinela (fixe-o na barra pelo ícone de quebra-cabeça) para ver o status do site atual e abrir o relatório.</p>
+  </div>
+
+  <div class="panel">
+    <h2>Proteção</h2>
+    <label class="opt"><div><div class="t">Bloquear sites perigosos conhecidos</div><div class="d">Mostra uma página de aviso antes de abrir endereços presentes nas listas de ameaças ou no Google Safe Browsing.</div></div>
+      <span class="switch"><input type="checkbox" id="block"><span></span></span></label>
+    <label class="opt"><div><div class="t">Bloquear também suspeitas fortes</div><div class="d">Bloqueia sites com risco alto detectado só pelas regras locais (imitação de marca, domínio recém-criado…). Mais proteção, mas pode dar falso positivo.</div></div>
+      <span class="switch"><input type="checkbox" id="blockHeuristic"><span></span></span></label>
+    <label class="opt"><div><div class="t">Cancelar downloads de origens perigosas</div><div class="d">Interrompe downloads vindos de endereços listados como malware/phishing.</div></div>
+      <span class="switch"><input type="checkbox" id="cancelDownloads"><span></span></span></label>
+    <label class="opt"><div><div class="t">Notificações</div><div class="d">Quando mostrar um aviso na área de notificações.</div></div>
+      <select id="notifyLevel"><option value="alta">Só risco alto</option><option value="media">Risco médio ou alto</option><option value="nenhuma">Nunca</option></select></label>
+  </div>
+
+  <div class="panel">
+    <h2>Relatório e privacidade</h2>
+    <label class="opt"><div><div class="t">Registrar também visitas sem problema</div><div class="d">Permite ver no relatório tudo que foi analisado. Desligue para guardar só os alertas.</div></div>
+      <span class="switch"><input type="checkbox" id="logClean"><span></span></span></label>
+    <label class="opt"><div><div class="t">Guardar histórico por</div><div class="d">Eventos mais antigos são apagados automaticamente.</div></div>
+      <select id="retentionDays"><option value="7">7 dias</option><option value="30">30 dias</option><option value="90">90 dias</option><option value="365">1 ano</option></select></label>
+    <label class="opt"><div><div class="t">Verificar idade do domínio</div><div class="d">Consulta o registro público (RDAP) para saber se o domínio foi criado há poucos dias — golpes costumam usar domínios novos. Envia só o nome do domínio a rdap.org.</div></div>
+      <select id="rdapMode"><option value="suspeitos">Só para sites já suspeitos</option><option value="todos">Para todos os sites</option><option value="desligado">Desligado</option></select></label>
+  </div>
+
+  <div class="panel">
+    <h2>Google Safe Browsing <span class="small muted">(opcional, recomendado)</span></h2>
+    <p class="small muted" style="margin-top:0">Com uma chave gratuita do Google, cada endereço visitado também é conferido na mesma base que o Chrome usa. O endereço é enviado ao Google para consulta.</p>
+    <div class="inline">
+      <input type="password" id="sbKey" placeholder="Cole aqui sua chave da API (AIza…)" autocomplete="off">
+      <button id="sbTest">Salvar e testar</button>
+    </div>
+    <div class="small" id="sbStatus" style="margin-top:6px"></div>
+    <details style="margin-top:10px"><summary class="small">Como conseguir a chave</summary>
+      <ol class="small">
+        <li>Acesse <a href="https://console.cloud.google.com/" target="_blank" rel="noopener">console.cloud.google.com</a> e crie um projeto (gratuito).</li>
+        <li>Em "APIs e serviços › Biblioteca", procure <b>Safe Browsing API</b> e clique em Ativar.</li>
+        <li>Em "APIs e serviços › Credenciais", clique em <b>Criar credenciais › Chave de API</b> e copie a chave.</li>
+        <li>Cole aqui e clique em "Salvar e testar".</li>
+      </ol>
+    </details>
+  </div>
+
+  <div class="panel">
+    <h2>Listas de ameaças</h2>
+    <p class="small muted" style="margin-top:0">Baixadas a cada 6 horas e consultadas localmente — os sites que você visita não são enviados a essas fontes.</p>
+    <table class="feeds"><thead><tr><th>Fonte</th><th>Itens</th><th>Atualizada</th></tr></thead><tbody id="feedRows"></tbody></table>
+    <div class="t" style="font-weight:600;margin-top:4px">Chave da abuse.ch <span class="small muted">(gratuita, libera a lista URLhaus)</span></div>
+    <div class="inline" style="margin:6px 0 4px">
+      <input type="password" id="abuseKey" placeholder="Cole aqui sua Auth-Key da abuse.ch" autocomplete="off">
+      <button id="abuseSave">Salvar e baixar</button>
+    </div>
+    <details style="margin-bottom:12px"><summary class="small">Como conseguir a chave</summary>
+      <ol class="small">
+        <li>Acesse <a href="https://auth.abuse.ch/" target="_blank" rel="noopener">auth.abuse.ch</a> e entre com sua conta Google, GitHub, X ou LinkedIn.</li>
+        <li>Na página da sua conta, gere uma <b>Auth-Key</b> e copie.</li>
+        <li>Cole aqui e clique em "Salvar e baixar".</li>
+      </ol>
+    </details>
+    <button id="updateFeeds">Atualizar agora</button> <span class="small muted" id="feedStatus"></span>
+  </div>
+
+  <div class="panel">
+    <h2>Sites de confiança</h2>
+    <p class="small muted" style="margin-top:0">Domínios aqui nunca geram alerta nem bloqueio (vale para os subdomínios).</p>
+    <div class="chips" id="allowChips"></div>
+    <div class="inline">
+      <input type="text" id="allowInput" placeholder="exemplo.com.br">
+      <button id="allowAdd">Adicionar</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Testar um endereço</h2>
+    <div class="inline">
+      <input type="url" id="testUrl" placeholder="https://endereco-para-verificar.com/login">
+      <button class="primary" id="testBtn">Verificar</button>
+    </div>
+    <div id="testResult" style="margin-top:10px"></div>
+  </div>
+
+  <p class="small muted"><a href="report.html">Abrir relatório</a></p>
+</div>
+<script type="module" src="../ui/options.js"></script>
+</body>
+</html>

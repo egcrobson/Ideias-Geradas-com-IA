@@ -1,0 +1,68 @@
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+.top { background: var(--panel); border-bottom: 1px solid var(--line); margin-bottom: 20px; }
+.top-in { display: flex; gap: 14px; align-items: center; padding-top: 16px; padding-bottom: 16px; flex-wrap: wrap; }
+.grow { flex: 1; min-width: 200px; }
+.exports { display: flex; gap: 8px; flex-wrap: wrap; }
+main > section, main > .filters { margin-bottom: 16px; }
+
+.filters { display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-end; }
+.filters label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); font-weight: 550; }
+.filters label#customDates { flex-direction: row; align-items: center; gap: 6px; }
+.filters .grow input { width: 100%; }
+
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.tile { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; box-shadow: var(--shadow); }
+.tile .v { font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.tile .l { font-size: 12px; color: var(--muted); }
+.tile.alta .v { color: var(--alta); } .tile.media .v { color: var(--media); } .tile.baixa .v { color: var(--baixa); }
+
+.grid2 { display: grid; grid-template-columns: 3fr 2fr; gap: 16px; }
+@media (max-width: 860px) { .grid2 { grid-template-columns: 1fr; } }
+
+.chart svg { width: 100%; height: 190px; display: block; }
+.chart .axis { fill: var(--muted); font-size: 10px; }
+.chart .grid { stroke: var(--line); }
+.legend { display: flex; gap: 14px; margin-top: 6px; }
+.dot { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+.dot.alta { background: var(--alta); } .dot.media { background: var(--media); } .dot.baixa { background: var(--baixa); }
+
+.top-list { margin: 0; padding-left: 22px; }
+.top-list li { padding: 5px 0; border-bottom: 1px solid var(--line); }
+.top-list li:last-child { border: 0; }
+.top-list .d { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+.top-list .d span:first-child { word-break: break-all; }
+
+.reason-bars .r { display: grid; grid-template-columns: minmax(180px, 2fr) 3fr 40px; gap: 10px; align-items: center; padding: 4px 0; font-size: 13px; }
+.reason-bars .bar { height: 8px; border-radius: 99px; background: var(--line); overflow: hidden; }
+.reason-bars .bar i { display: block; height: 100%; background: var(--accent); border-radius: 99px; }
+.reason-bars .n { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
+@media (max-width: 600px) { .reason-bars .r { grid-template-columns: 1fr 40px; } .reason-bars .bar { display: none; } }
+
+.row-between { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 8px; }
+.row-between h2 { margin: 0; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); font-weight: 650; padding: 8px; border-bottom: 1px solid var(--line); }
+td { padding: 9px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+td.when { white-space: nowrap; font-variant-numeric: tabular-nums; }
+td.addr { max-width: 340px; }
+td.addr .h { font-weight: 600; word-break: break-all; }
+td.addr .u { color: var(--muted); }
+td ul { margin: 0; padding-left: 16px; }
+tr.hl { background: var(--media-bg); }
+.act { font-size: 12px; font-weight: 600; }
+.act.bloqueado, .act.cancelado { color: var(--alta); }
+.center { text-align: center; margin-top: 12px; }
+.empty { text-align: center; padding: 24px 0; }
+.foot { margin: 8px 0 32px; }
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff; color: #000; font-size: 11px; }
+  .panel, .tile { box-shadow: none; break-inside: avoid; }
+  .top { border: 0; margin-bottom: 8px; }
+  .grid2 { grid-template-columns: 3fr 2fr; }
+  td.addr { max-width: 260px; }
+  tr { break-inside: avoid; }
+  .table-wrap { overflow: visible; }
+}

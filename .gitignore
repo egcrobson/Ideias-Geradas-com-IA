@@ -1,0 +1,4 @@
+*.zip
+.env
+*.pem
+*.key
